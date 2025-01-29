@@ -27,13 +27,17 @@ class Files
 
 	public:
 
+	// this part handles the variable creation
+	string filename; // var for file name
+	ifstream fileStream // reading filestream
+
 		//name: Files
 		//functionality: will be the constructor
 		//parameters: 
 		//return: 
 		Files() 
-		{
-
+		{	
+			filename = "";
 		}
 
 
