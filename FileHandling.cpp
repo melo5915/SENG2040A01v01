@@ -41,15 +41,35 @@ class Files
 		}
 
 
+
+
 		//name: LoadStoreFile
 		//functionality: will load and store files content
 		//parameters:
 		//return:
 		void LoadStoreFile()
 		{
-			
+			// the first piece of logic here will handle opening the file and checking
+			// if it opened successfully
 
+			// the contents of the file will then be stored 
+
+			// more detail will be added to section later. for now I just want the file data
+			// to be stored in the program 
+
+			filestream.open(filename); // opening the file
+			if (fileStream.is_open()) // storing file contents
+			{
+				string currentLine;
+				while(getline(fileStream, currentLine)) // loop that goes through file line by line and saved the contents
+					{
+						fileContent += line + "\n";
+					}
+			}
+			fileStream.close();
 		} 
+
+
 
 
 		//name: VerifyFileContents
