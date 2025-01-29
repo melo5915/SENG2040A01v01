@@ -1,6 +1,6 @@
 // current file: FileHandling.cpp
-// project name: melosta5915_t_w3
-// programmer name: Mohamad-Aref El-Osta
+// project name: jsmith1234_t_w3
+// programmer name: Mohamad-Aref El-Osta && Muhammad Elsoukkary
 // current version: v01
 
 /*
