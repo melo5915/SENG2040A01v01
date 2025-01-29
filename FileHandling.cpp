@@ -45,8 +45,8 @@ class Files
 
 		//name: LoadStoreFile
 		//functionality: will load and store files content
-		//parameters:
-		//return:
+		//parameters: none
+		//return: boolean
 		void LoadStoreFile()
 		{
 			// the first piece of logic here will handle opening the file and checking
@@ -58,15 +58,23 @@ class Files
 			// to be stored in the program 
 
 			filestream.open(filename); // opening the file
-			if (fileStream.is_open()) // storing file contents
+			if (!VerifyFileContents()) // modified error checking 
 			{
-				string currentLine;
-				while(getline(fileStream, currentLine)) // loop that goes through file line by line and saved the contents
-					{
-						fileContent += line + "\n";
-					}
+
+				cout << "ERROR: File Not Loaded. " << filename << endl; 
+				return;
 			}
+
+			
+			string currentLine;
+			while(getline(fileStream, currentLine)) // loop that goes through file line by line and saved the contents
+				{
+					fileContent += line + "\n";
+				}
+					
+			
 			fileStream.close();
+			
 		} 
 
 
@@ -79,6 +87,11 @@ class Files
 		void VerifyFileContents()
 		{
 
+			// I decided to make some changes. I am putting the file checking in here for the sake of modularity
+			// and I am going to modify LoadStoreFile to call this method. It makes it look less hard coded. 
+
+			fileStream.open(filename);
+			return fileStream.is_open();
 
 		}
 
