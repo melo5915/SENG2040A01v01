@@ -231,6 +231,8 @@ int main(int argc, char* argv[])
 			// then you would set the memory through memset to around 16 bytes and 
 			// parse the packet header to extract metadata like the sequence number and checksum.
 
+			//Files
+
 			unsigned char packet[PacketSize];
 			memset(packet, 0, sizeof(packet));
 			snprintf((char*)packet, max_len, "Hello world <<%d>>", i++);

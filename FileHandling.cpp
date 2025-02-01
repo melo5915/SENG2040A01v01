@@ -22,8 +22,7 @@ according to the lab instructions
 using namespace std;
 using namespace net;
 
-void ReceiveFile();
-void CalcTransTime();
+
 
 class Files
 {
@@ -32,13 +31,13 @@ public:
 
 	// this part handles the variable creation
 	string filename; // var for file name
-	ifstream fileStream // reading filestream
+	ifstream fileStream; // reading filestream
 
 		//name: Files
 		//functionality: will be the constructor
 		//parameters: 
 		//return: 
-		Files()
+	Files()
 	{
 		filename = "";
 	}
@@ -50,7 +49,7 @@ public:
 	//functionality: will load and store files content
 	//parameters: none
 	//return: boolean
-	void LoadStoreFile()
+	void LoadStoreFile(string fileContent)
 	{
 		// the first piece of logic here will handle opening the file and checking
 		// if it opened successfully
@@ -60,7 +59,9 @@ public:
 		// more detail will be added to section later. for now I just want the file data
 		// to be stored in the program 
 
-		filestream.open(filename); // opening the file
+		
+
+		fileStream.open(filename); // opening the file
 		if (!VerifyFileContents()) // modified error checking 
 		{
 
@@ -72,7 +73,9 @@ public:
 		string currentLine;
 		while (getline(fileStream, currentLine)) // loop that goes through file line by line and saved the contents
 		{
-			fileContent += line + "\n";
+			
+			// this code is commented out until we can figure the functionality better
+			//fileContent += line + "\n";
 		}
 
 
@@ -88,7 +91,7 @@ public:
 	//functionality: will verify the files contents
 	//parameters:
 	//return:
-	void VerifyFileContents()
+	bool VerifyFileContents()
 	{
 
 		// I decided to make some changes. I am putting the file checking in here for the sake of modularity
@@ -136,7 +139,9 @@ public:
 
 		// so when there is an ack then send the file 
 
-		SendFile();
+		SendFile(); // or prehaps send some type of ack 
+
+
 	}
 
 
@@ -159,9 +164,15 @@ public:
 		 // this will start the timer by grabbing the time 
 		auto start = std::chrono::steady_clock::now();
 
+
+		// this will get the time in between 
+		auto end = std::chrono::steady_clock::now();
+
 	};
 
-	Files(); = default;
+	
 
-}
 };
+
+
+
