@@ -35,7 +35,7 @@ class Files
 		//functionality: will be the constructor
 		//parameters: 
 		//return: 
-		Files() 
+		Files()
 		{	
 			filename = "";
 		}
@@ -75,6 +75,7 @@ class Files
 			
 			fileStream.close();
 			
+			
 		} 
 
 
@@ -90,6 +91,8 @@ class Files
 			// I decided to make some changes. I am putting the file checking in here for the sake of modularity
 			// and I am going to modify LoadStoreFile to call this method. It makes it look less hard coded. 
 
+
+			// got to look into these errors and figure out why fileStream .whatever does not work 
 			fileStream.open(filename);
 			return fileStream.is_open();
 
@@ -103,10 +106,16 @@ class Files
 		// return: void
 		void SendFile()
 		{
+			// psuedocode to figure this out 
 
+		    // how to send a file well a file is probably going to be sent using a packet and need to be searlized
+			// important question do we do it? Is it already done 
+			// 
+
+			
 		}
 
-
+		
 
 		// function name:ReceiveFile
 		// functionality: This function will receive the file
@@ -114,7 +123,15 @@ class Files
 		// return: void
 		void ReceiveFile()
 		{
+			// if file is recived fully send a message with param to say that file worked 
 
+			// psuedocode 
+
+			// if file is not null 
+
+			// call send file or some other function to alert the computer that it was succesful 
+
+			// 
 		}
 
 
@@ -125,8 +142,13 @@ class Files
 		//return:
 		void CalcTransTime()
 		{
+		   // this function might need to be static or be called in sendfile 
 
+			// for this function I would want some type of stop watch 
 
+			// intalize the stop watch and var
+
+			// then simply wait until something happens I woul
 		}
 
 
