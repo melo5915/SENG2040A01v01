@@ -10,7 +10,9 @@
 #include <string>
 #include <vector>
 
+
 #include "Net.h"
+#include <filesystem>
 
 //#define SHOW_ACKS
 
@@ -121,6 +123,7 @@ private:
 
 int main(int argc, char* argv[])
 {
+	streamsize fileSize;
 	// parse command line
 
 	enum Mode
@@ -147,6 +150,17 @@ int main(int argc, char* argv[])
 		// the files size in bytes must be stored
 		// the file contents must be committed to memory 
 		// then the file must be closed 
+
+			string filename = "";
+
+			std::ifstream file(filename, std::ios::binary | std::ios::ate);
+
+				if (!file)
+				{
+					printf("ERROR NO FILE FOUND");
+					return ERROR;
+				}
+				std::streamsize fileSize = file.tellg();
 
 		}
 	}
@@ -215,6 +229,12 @@ int main(int argc, char* argv[])
 		// equation in order to make sure the file is sent in correct pieces 
 		// Breaking the file in pieces to send
 		
+		
+		log(fileSize);
+
+		
+
+			
 
 
 		// send and receive packets
@@ -231,7 +251,7 @@ int main(int argc, char* argv[])
 			// then you would set the memory through memset to around 16 bytes and 
 			// parse the packet header to extract metadata like the sequence number and checksum.
 
-			//Files
+		
 
 			unsigned char packet[PacketSize];
 			memset(packet, 0, sizeof(packet));
