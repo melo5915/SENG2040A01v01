@@ -218,12 +218,19 @@ public:
 		auto end = std::chrono::steady_clock::now();
 
 
-		// This is where the actual time calc will happen
+		// this is where the actual time calc will happen
 		// I put it here since Im finding the speed after the transfer
 		// I put it in seconds 
 		auto timeCalculation = std::chrono::duration_cast<std::chrono::seconds>(end - start).count(); // elapsed time
-		double sizeConversion = (fileSize * 8) / 1'000'000.0; // byte - megabyte conversion
+		double sizeConversion = (fileSize * 8) / 1'000'000.0; // byte - megabit conversion
 		double tranSpeed = fileSize / timeCalculation; 
+
+		// lastly I need to output the speed
+
+		std::cout << "Transfer Speed: " << transpeed << "mbps" << std::endl;
+		
+
+		
 
 		
 
