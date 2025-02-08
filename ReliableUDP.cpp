@@ -123,7 +123,7 @@ private:
 
 int main(int argc, char* argv[])
 {
-	streamsize fileSize;
+	streamsize fileSize{};
 	// parse command line
 
 	enum Mode
