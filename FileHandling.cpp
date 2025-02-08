@@ -115,6 +115,30 @@ public:
 	void SendFile()
 	{
 		// psuedocode to figure this out 
+		// checking if file is open 
+		// its 1:30 am this better work
+
+		if (!fileStream.is_open())
+		{
+			cout << " File unable to be reached." << endl;
+			return;
+		}
+
+		// throwing file content into a string
+		string fileContent((istreambuf_iterator<char>(fileStream)), istreambuf_iterator<char>());
+
+		// sending the files content
+		if (net::Send(fileContent))
+		{
+			cout << "File sent" << endl;
+		}
+		else
+		{
+			cout << "File not sent" << endl;
+		}
+
+		// more logic might be added here 
+		
 
 		// how to send a file well a file is probably going to be sent using a packet and need to be searlized
 		// important question do we do it? Is it already done 
