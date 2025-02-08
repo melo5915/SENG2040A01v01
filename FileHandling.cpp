@@ -155,12 +155,28 @@ public:
 	// return: void
 	void ReceiveFile()
 	{
-		// if file is recived fully send a message with param to say that file worked 
-	
+		FILE* rf = NULL;
 
+		// need the var that is going to give the metdata 
+
+		char filename[100];
+		rf = fopen(filename, "wb");
+		// if file is recived fully send a message with param to say that file worked 
+		// need acks 
+		char receivingBuffer[1400];
+		// needs fixing while whatever socket it is 
+
+		// depending on the way everything arrives may need map 
+
+		while (packet =  > 0)
+		{
+
+		}
+		if ()
 		// psuedocode 
 
 		// if file is not null 
+
 
 		// call send file or some other function to alert the computer that it was succesful 
 

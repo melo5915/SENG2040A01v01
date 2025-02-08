@@ -231,24 +231,23 @@ int main(int argc, char* argv[])
 		// equation in order to make sure the file is sent in correct pieces 
 		// Breaking the file in pieces to send
 		
-		const int ik = 1000;
-	
-		if (fileSize > 0)
+		const int maxBytes = 1400;
+		const int maxFileNameSize = 100;
+		char filename[maxFileNameSize] = "filename.txt";
+		char buffer[maxBytes];
+		 FILE* fp = fopen(filename, "rb");
+		 size_t  bytesToBeRead = NULL;
+		if (!fp)
 		{
-			
-			float chunks = log(fileSize);
 
+		}
+	    while ((bytesToBeRead = fread_s(buffer, maxBytes,1,maxBytes, fp) > 0))
+		{
 
 		}
 		
 
 
-
-		
-
-		
-
-			
 
 
 		// send and receive packets
