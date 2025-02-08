@@ -6,6 +6,7 @@
 
 
 #include <iostream>
+#include <cmath>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -27,6 +28,7 @@ const float DeltaTime = 1.0f / 30.0f;
 const float SendRate = 1.0f / 30.0f;
 const float TimeOut = 10.0f;
 const int PacketSize = 256;
+
 
 
 class FlowControl
@@ -229,8 +231,20 @@ int main(int argc, char* argv[])
 		// equation in order to make sure the file is sent in correct pieces 
 		// Breaking the file in pieces to send
 		
+		const int ik = 1000;
+	
+		if (fileSize > 0)
+		{
+			
+			float chunks = log(fileSize);
+
+
+		}
 		
-		log(fileSize);
+
+
+
+		
 
 		
 
@@ -247,10 +261,12 @@ int main(int argc, char* argv[])
 			int max_len = sizeof buffer;
 
 		
-			// To send the file in pieces you would take the car from the earlier code that broke down
+			// To send the file in pieces you would take the char from the earlier code that broke down
 			// then you would set the memory through memset to around 16 bytes and 
 			// parse the packet header to extract metadata like the sequence number and checksum.
-
+			size_t max_bytes = 16 ;
+			int* ptr;
+			memset(ptr,-6,max_bytes);
 		
 
 			unsigned char packet[PacketSize];
@@ -314,6 +330,8 @@ int main(int argc, char* argv[])
 			// this checksum will look corrupted data and missing packets
 			// only after this check will the file be sent
 
+			
+
 			printf("rtt %.1fms, sent %d, acked %d, lost %d (%.1f%%), sent bandwidth = %.1fkbps, acked bandwidth = %.1fkbps\n",
 				rtt * 1000.0f, sent_packets, acked_packets, lost_packets,
 				sent_packets > 0.0f ? (float)lost_packets / (float)sent_packets * 100.0f : 0.0f,
@@ -326,6 +344,7 @@ int main(int argc, char* argv[])
 	}
 
 	//ShutdownSockets();
+
 
 	return 0;
 }

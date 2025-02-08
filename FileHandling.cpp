@@ -156,6 +156,7 @@ public:
 	void ReceiveFile()
 	{
 		// if file is recived fully send a message with param to say that file worked 
+	
 
 		// psuedocode 
 
@@ -164,6 +165,8 @@ public:
 		// call send file or some other function to alert the computer that it was succesful 
 
 		// so when there is an ack then send the file 
+
+		
 
 		SendFile(); // or prehaps send some type of ack 
 
