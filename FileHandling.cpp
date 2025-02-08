@@ -82,6 +82,7 @@ public:
 			return;
 		}
 
+		
 
 		string currentLine;
 		while (getline(fileStream, currentLine)) // loop that goes through file line by line and saved the contents
@@ -249,6 +250,16 @@ public:
 
 	};
 
+	size_t getFileSize(const char* filename)
+	{
+		ifstream file;
+		file.open(filename, ios_base::binary);
+		file.seekg(0, ios_base::end);
+		size_t fileSize = static_cast<size_t>(file.tellg());
+		file.close();
+		return fileSize;
+	}
+	
 	
 
 };
