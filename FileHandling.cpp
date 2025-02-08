@@ -6,8 +6,8 @@
 /*
 functionality:
 
-I am setting up the assignment methods 
-according to the lab instructions 
+this file has logic that handles file transfer 
+and speed calculations
 
 */
 
@@ -35,10 +35,10 @@ public:
 	string filename; // var for file name
 	ifstream fileStream; // reading filestream
 
-		//name: Files
-		//functionality: will be the constructor
-		//parameters: 
-		//return: 
+	//name: Files
+	//functionality: will be the constructor
+	//parameters: 
+	//return: 
 	Files()
 	{
 		filename = "";
@@ -60,6 +60,10 @@ public:
 
 		// more detail will be added to section later. for now I just want the file data
 		// to be stored in the program 
+
+
+		// so for this section we came to the conclusion that we need to use some sort of 
+		// data structure and a vector to load and stash the files contents
 
 		
 
