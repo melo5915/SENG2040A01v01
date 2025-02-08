@@ -209,6 +209,10 @@ public:
 		 // this will start the timer by grabbing the time 
 		auto start = std::chrono::steady_clock::now();
 
+		// this is where the actual time calc will happen
+		// first I need to transfer the file
+		// I will call SendFile()
+		SendFile();
 
 		// this will get the time in between 
 		auto end = std::chrono::steady_clock::now();
