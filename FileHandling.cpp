@@ -21,10 +21,17 @@ according to the lab instructions
 #include <wincrypt.h>
 
 
+
 using namespace std;
 using namespace net;
 
-
+struct fileData
+{
+	char fileName[100];
+	size_t fileSize; 
+	char checkSum[100];
+	vector<char> contentsOfFile;
+};
 
 class Files
 {
@@ -75,13 +82,14 @@ public:
 		string currentLine;
 		while (getline(fileStream, currentLine)) // loop that goes through file line by line and saved the contents
 		{
-			
+
 			// this code is commented out until we can figure the functionality better
 			//fileContent += line + "\n";
 		}
 
 
-		//fileStream.close();
+
+		fileStream.close();
 
 
 	}
@@ -128,7 +136,8 @@ public:
 		string fileContent((istreambuf_iterator<char>(fileStream)), istreambuf_iterator<char>());
 
 		// sending the files content
-		if (net::Send(fileContent))
+		   
+		if (net::Send(fileContent)    )
 		{
 			cout << "File sent" << endl;
 		}
@@ -172,7 +181,7 @@ public:
 		{
 
 		}
-		if ()
+		
 		// psuedocode 
 
 		// if file is not null 
