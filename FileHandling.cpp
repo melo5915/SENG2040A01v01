@@ -195,7 +195,7 @@ public:
 	//functionality: will calculate transmission time of the file
 	//parameters:
 	//return:
-	void CalcTransTime()
+	void CalcTransTime(size_t fileSize)
 	{
 		// this function might need to be static or be called in sendfile 
 
