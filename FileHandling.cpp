@@ -209,13 +209,21 @@ public:
 		 // this will start the timer by grabbing the time 
 		auto start = std::chrono::steady_clock::now();
 
-		// this is where the actual time calc will happen
+		
 		// first I need to transfer the file
 		// I will call SendFile()
 		SendFile();
 
 		// this will get the time in between 
 		auto end = std::chrono::steady_clock::now();
+
+
+		// This is where the actual time calc will happen
+		// I put it here since Im finding the speed after the transfer
+		// I put it in seconds 
+		auto timeCalculation = std::chrono::duration_cast<std::chrono::seconds>(end - start).count(); // elapsed time
+		double sizeConversion = (fileSize * 8) / 1'000'000.0; // byte - megabyte conversion
+		double tranSpeed = fileSize / timeCalculation; 
 
 		
 
