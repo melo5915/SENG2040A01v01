@@ -250,6 +250,10 @@ public:
 
 	};
 
+	// function name: GetFileSize
+	// functionality:calculates size of file
+	// parameters: filename 
+	// return: size
 	size_t	GetFileSize(const char* filename)
 	{
 		ifstream file(filename, ios_base::binary);
