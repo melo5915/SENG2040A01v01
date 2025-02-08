@@ -17,6 +17,8 @@ according to the lab instructions
 #include <vector>
 #include <chrono>
 #include "Net.h"
+#include <windows.h>
+#include <wincrypt.h>
 
 
 using namespace std;
