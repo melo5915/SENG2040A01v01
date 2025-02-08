@@ -62,7 +62,7 @@ public:
 	{
 		// the first piece of logic here will handle opening the file and checking
 		// if it opened successfully
-
+		
 		// the contents of the file will then be stored 
 
 		// more detail will be added to section later. for now I just want the file data
@@ -76,7 +76,7 @@ public:
 
 		fileStream.open(filename); // opening the file
 		if (!VerifyFileContents()) // modified error checking 
-		{
+	/	{
 
 			cout << "ERROR: File Not Loaded. " << filename << endl;
 			return;
@@ -250,10 +250,14 @@ public:
 
 	};
 
-	size_t getFileSize(const char* filename)
+	size_t	GetFileSize(const char* filename)
 	{
-		ifstream file;
-		file.open(filename, ios_base::binary);
+		ifstream file(filename, ios_base::binary);
+		if (!file.is_open())
+		{
+			printf("Error failed to open file");
+		}
+		
 		file.seekg(0, ios_base::end);
 		size_t fileSize = static_cast<size_t>(file.tellg());
 		file.close();
