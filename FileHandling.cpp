@@ -76,7 +76,8 @@ public:
 
 		fileStream.open(filename); // opening the file
 		if (!VerifyFileContents()) // modified error checking 
-	/	{
+	
+		{
 
 			cout << "ERROR: File Not Loaded. " << filename << endl;
 			return;
@@ -241,7 +242,7 @@ public:
 
 		// lastly I need to output the speed
 
-		std::cout << "Transfer Speed: " << transpeed << "mbps" << std::endl;
+		std::cout << "Transfer Speed: " << tranSpeed << "mbps" << std::endl;
 		
 
 		
@@ -250,7 +251,11 @@ public:
 
 	};
 
-	size_t GetFileSize(const char* filename)
+	// function name: GetFileSize
+	// functionality:calculates size of file
+	// parameters: filename 
+	// return: size
+	size_t	GetFileSize(const char* filename)
 	{
 		ifstream file(filename, ios_base::binary);
 		if (!file.is_open())
