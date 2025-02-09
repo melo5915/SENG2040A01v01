@@ -48,7 +48,12 @@ public:
 	//return: 
 	Files(ReliableConnection& connection, const std::string& filename)
 	{
-		filename == "";
+		if (filename != "")
+		{
+			
+			this->filename = filename;
+		}
+		
 	}
 
 	~Files()
