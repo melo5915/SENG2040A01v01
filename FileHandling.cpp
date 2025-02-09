@@ -247,6 +247,7 @@ Files::Files(ReliableConnection& connection, const std::string& filename) : curr
 	//return:
 	void Files::CalcTransTime(size_t fileSize)
 	{
+		
 		// this function might need to be static or be called in sendfile 
 
 		 // for this function I would want some type of stop watch 
@@ -265,8 +266,6 @@ Files::Files(ReliableConnection& connection, const std::string& filename) : curr
 		this->SendFile();
 
 	
-
-		
 
 		// this will get the time in between 
 		auto end = std::chrono::steady_clock::now();
@@ -352,6 +351,23 @@ Files::Files(ReliableConnection& connection, const std::string& filename) : curr
 		string check = tester.CalculateCheckSumMD5("tester.txt");
 
 		printf("Checking corruption %s\n", check);
+	}
+
+	void Files::Auto(ReliableConnection& connection)
+	{
+		Files textFile(connection, "test.txt");
+
+		printf("Testing textfile\n");
+
+		textFile.SendFile();
+
+		Files textJPG(connection, "test.jpeg");
+
+		printf("Testing jpg\n");
+
+		textJPG.SendFile();
+
+	
 	}
 	
 

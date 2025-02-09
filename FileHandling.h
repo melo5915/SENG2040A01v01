@@ -122,5 +122,7 @@ public:
 	string CalculateCheckSumMD5(const char* filename);
 
 	void Test();
+
+	void Auto(ReliableConnection& connection);
 	
 };

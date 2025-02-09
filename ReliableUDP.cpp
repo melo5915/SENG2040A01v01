@@ -228,6 +228,11 @@ int main(int argc, char* argv[])
 			break;
 		}
 
+		Files newFv(connection, "test");
+
+		newFv.Auto(connection);
+		size_t filesz = newFv.GetFileSize("test.txt");
+		newFv.CalcTransTime(filesz);
 		// At this point connection has been established with the server you want to
 		// Breaking down the file by bytes to do this you need to take the file size and use a logarithic
 		// equation in order to make sure the file is sent in correct pieces 
