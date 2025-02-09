@@ -33,6 +33,8 @@ struct fileData
 	vector<char> contentsOfFile;
 };
 const int maxBytes = 1400;
+const int mill = 1'000'000.0;
+const int numeight = 8;
 struct FilePacket
 {
 	uint32_t seqNum;
@@ -275,24 +277,19 @@ public:
 
 		// this will get the time in between 
 		auto end = std::chrono::steady_clock::now();
-
+		
 
 		// this is where the actual time calc will happen
 		// I put it here since Im finding the speed after the transfer
 		// I put it in seconds 
 		auto timeCalculation = std::chrono::duration_cast<std::chrono::seconds>(end - start).count(); // elapsed time
-		double sizeConversion = (fileSize * 8) / 1'000'000.0; // byte - megabit conversion
+		double sizeConversion = (fileSize * numeight) / mill; // byte - megabit conversion
 		double tranSpeed = fileSize / timeCalculation; 
 
 		// lastly I need to output the speed
 
 		std::cout << "Transfer Speed: " << tranSpeed << "mbps" << std::endl;
 		
-
-		
-
-		
-
 	};
 
 	// function name: GetFileSize
