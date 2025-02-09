@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #pragma once
 
-// current file: FileHandling.cpp
+// current file: FileHandling.h
 // project name: jsmith1234_t_w3
 // programmer name: Mohamad-Aref El-Osta && Muhammad Elsoukkary
 // current version: v01

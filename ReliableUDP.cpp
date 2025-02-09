@@ -1,3 +1,9 @@
+// current file: ReliableUDP.cpp
+// project name: jsmith1234_t_w3
+// programmer names: Mohamad-Aref El-Osta && Muhammad Elsoukkary
+// student numbers or student email:  melosta5915@conestogac.on.ca 8826383 Melsoukkary6383@conestogac.on.ca
+// current version: v03
+
 #define _CRT_SECURE_NO_WARNINGS
 /*
 	Reliability and Flow Control Example
@@ -149,22 +155,22 @@ int main(int argc, char* argv[])
 			mode = Client;
 			address = Address(a, b, c, d, ServerPort);
 
-		// first we need to get the file name
-		// then we must open the file 
-		// the files size in bytes must be stored
-		// the file contents must be committed to memory 
-		// then the file must be closed 
+			// first we need to get the file name
+			// then we must open the file 
+			// the files size in bytes must be stored
+			// the file contents must be committed to memory 
+			// then the file must be closed 
 
 			string filename = "";
 
 			std::ifstream file(filename, std::ios::binary | std::ios::ate);
 
-				if (!file)
-				{
-					printf("ERROR NO FILE FOUND");
-					return ERROR;
-				}
-				std::streamsize fileSize = file.tellg();
+			if (!file)
+			{
+				printf("ERROR NO FILE FOUND");
+				return ERROR;
+			}
+			std::streamsize fileSize = file.tellg();
 
 		}
 	}
@@ -187,10 +193,19 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	if (mode == Client)
+	if (mode == Client) {
+		string filename = "test.txt";
+		Files* file = new Files(connection, "test.txt");
+		file->SendFile();
 		connection.Connect(address);
-	else
+	}
+	else {
 		connection.Listen();
+		Files* file = new Files(connection, "test.txt");
+		file->ReceiveFile();
+	}
+
+
 
 	bool connected = false;
 	float sendAccumulator = 0.0f;

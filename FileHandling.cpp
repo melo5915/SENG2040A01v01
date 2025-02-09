@@ -1,7 +1,8 @@
 // current file: FileHandling.cpp
 // project name: jsmith1234_t_w3
-// programmer name: Mohamad-Aref El-Osta && Muhammad Elsoukkary
-// current version: v01
+// programmer names: Mohamad-Aref El-Osta && Muhammad Elsoukkary
+// student numbers or student email:  melosta5915@conestogac.on.ca 8826383 Melsoukkary6383@conestogac.on.ca
+// current version: v03
 
 /*
 functionality:
