@@ -11,73 +11,36 @@ and speed calculations
 
 */
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <chrono>
-#include "Net.h"
-#include <windows.h>
-#include <wincrypt.h>
-#include <cryptuiapi.h>
-#include <openssl/md5.h>
-#include <iomanip>
-#include <sstream>
 
-using namespace std;
-using namespace net;
+#include "FileHandling.h"
 
-struct fileData
-{
-	char fileName[100];
-	size_t fileSize; 
-	char checkSum[100];
-	vector<char> contentsOfFile;
-};
-const int maxBytes = 1400;
-const int mill = 1'000'000.0;
-const int numeight = 8;
-struct FilePacket
-{
-	uint32_t seqNum;
-	uint16_t dataSize;
-	char data[maxBytes];
-};
 
-class Files
-{
 
-private:
 
-	// this part handles the variable creation
-	string filename; // var for file name
-	ifstream fileStream; // reading filestream
-	ReliableConnection& currentConnection;
 
-public:
 	//name: Files
 	//functionality: will be the constructor
 	//parameters: 
 	//return: 
 
-	Files(ReliableConnection& connection, const std::string& filename) : currentConnection(connection)
+Files::Files(ReliableConnection& connection, const std::string& filename) : currentConnection(connection)
+{
+
+	if (!filename.empty())
 	{
-		
-		if (!filename.empty())
-		{
-			
-			this->filename = filename;
-		}
-		
-		currentConnection = connection;
-		
+
+		this->filename = filename;
 	}
+
+
+
+}
 	//name: ~Files
 	//functionality: will be the destructor
 	//parameters: 
 	//return: 
 
-	~Files()
+	Files::~Files()
 	{
 		
 	}
@@ -89,7 +52,7 @@ public:
 	//functionality: will load and store files content
 	//parameters: none
 	//return: boolean
-	void LoadStoreFile(string fileContent)
+	void Files::LoadStoreFile(string fileContent)
 	{
 		// the first piece of logic here will handle opening the file and checking
 		// if it opened successfully
@@ -138,7 +101,7 @@ public:
 	//functionality: will verify the files contents
 	//parameters:
 	//return:
-	bool VerifyFileContents()
+	bool Files::VerifyFileContents()
 	{
 
 		// I decided to make some changes. I am putting the file checking in here for the sake of modularity
@@ -157,7 +120,7 @@ public:
 	// functionality:This function will send the file
 	// parameters: void 
 	// return: void
-	void SendFile()
+	void Files::SendFile()
 	{
 		// psuedocode to figure this out 
 		// checking if file is open 
@@ -182,10 +145,15 @@ public:
 
 		fileData metaData;
 
+		Files fileObj(currentConnection, Files::filename);
+		string checkSum = fileObj.CalculateCheckSumMD5(filename.c_str());
+
+
+
 		// this code just grabs and sends the file metadata
 		strncpy(metaData.fileName, filename.c_str(), sizeof(metaData.fileName) - 1);
 		metaData.fileSize = GetFileSize(filename.c_str());
-
+		strncpy(metaData.checkSum, checkSum.c_str(), sizeof(metaData.checkSum) - 1);
 		// this bascailly sends it as a packet 
 		currentConnection.SendPacket(reinterpret_cast<unsigned char*>(&metaData), sizeof(metaData));
 
@@ -220,9 +188,17 @@ public:
 	// functionality: This function will receive the file
 	// parameters: void
 	// return: void
-	void ReceiveFile()
+	void Files::ReceiveFile()
 	{
 		FILE* rf = NULL;
+
+		fileData metaD;
+		
+		if (currentConnection.ReceivePacket(reinterpret_cast<unsigned char*>(&metaD), sizeof(metaD))<=0)
+		{
+			printf("Error failed to recive metdata");
+			return;
+		}
 
 		// need the var that is going to give the metdata 
 
@@ -238,6 +214,19 @@ public:
 		while(currentConnection.ReceivePacket(reinterpret_cast<unsigned char*>(&packet), sizeof(packet)) > 0)
 		{
 			fwrite(packet.data, 1, packet.dataSize, rf);
+		}
+		 
+		fclose(rf);
+		
+		// code that checks the checksums to see if they match returns and gives erorrs if they do not
+		string checkSumRec = CalculateCheckSumMD5(metaD.fileName);
+		if (checkSumRec != metaD.checkSum)
+		{
+			printf("Error file is incorrect\n");
+			printf("Checksum expected %s does not match %s", metaD.checkSum, checkSumRec.c_str());
+
+			remove(metaD.fileName);
+			return;
 		}
 		
 		// psuedocode 
@@ -256,7 +245,7 @@ public:
 	//functionality: will calculate transmission time of the file
 	//parameters:
 	//return:
-	void CalcTransTime(size_t fileSize)
+	void Files::CalcTransTime(size_t fileSize)
 	{
 		// this function might need to be static or be called in sendfile 
 
@@ -273,7 +262,9 @@ public:
 		
 		// first I need to transfer the file
 		// I will call SendFile()
-		SendFile();
+		this->SendFile();
+
+	
 
 		
 
@@ -298,7 +289,7 @@ public:
 	// functionality:calculates size of file
 	// parameters: filename 
 	// return: size
-	size_t	GetFileSize(const char* filename)
+	size_t	Files::GetFileSize(const char* filename)
 	{
 		ifstream file(filename, ios_base::binary);
 		if (!file.is_open())
@@ -311,10 +302,57 @@ public:
 		file.close();
 		return fileSize;
 	}
-	
-	
 
-};
+	string Files::CalculateCheckSumMD5(const char* filename)
+	{
+		const int maxBuf = 1024;
+		std::ifstream file(filename, std::ios::binary);
+		EVP_MD_CTX* mdCtx = EVP_MD_CTX_new();
+		EVP_DigestInit_ex(mdCtx, EVP_md5(), NULL);
+		
 
+		char buf[maxBuf];
+		while (file.read(buf, sizeof(buf)))
+		{
+			EVP_DigestUpdate(mdCtx, buf, file.gcount());
+
+		}
+
+		unsigned char res[MD5_DIGEST_LENGTH];
+		unsigned int resLength;
+		EVP_DigestFinal_ex(mdCtx,res,&resLength);
+
+		EVP_MD_CTX_free(mdCtx);
+
+		std::stringstream sj;
+
+		for (int i = 0;i < MD5_DIGEST_LENGTH;i++)
+		{
+			sj << std::hex << std::setw(2) << std::setfill('0') << (int)res[i];
+		}
+		return sj.str();
+	}
+
+	void Files::Test()
+	{
+		Files tester(this->currentConnection, "tester.txt");
+
+		tester.SendFile();
+
+		FILE* t = fopen("tester.txt", "rb+");
+		const int speed = 10;
+		if (t)
+		{
+			fseek(t, speed, SEEK_SET);
+			fputc('Y', t);
+
+			fclose(t);
+		}
+
+		string check = tester.CalculateCheckSumMD5("tester.txt");
+
+		printf("Checking corruption %s\n", check);
+	}
+	
 
 

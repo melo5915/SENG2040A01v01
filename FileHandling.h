@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #pragma once
 
 // current file: FileHandling.cpp
@@ -22,6 +23,10 @@ and speed calculations
 #include <windows.h>
 #include <wincrypt.h>
 #include <cryptuiapi.h>
+#include <openssl/md5.h>
+#include <iomanip>
+#include <sstream>
+#include <openssl/evp.h>
 
 
 using namespace std;
@@ -35,6 +40,16 @@ struct fileData
 	vector<char> contentsOfFile;
 };
 
+const int maxBytes = 1400;
+const int mill = 1'000'000.0;
+const int numeight = 8;
+struct FilePacket
+{
+	uint32_t seqNum;
+	uint16_t dataSize;
+	char data[maxBytes];
+};
+
 class Files
 {
 
@@ -43,7 +58,7 @@ private:
 	string filename; // var for file name
 	ifstream fileStream; // reading filestream
 	ReliableConnection& currentConnection;
-
+	
 	
 public:
 
@@ -104,8 +119,8 @@ public:
 	size_t	GetFileSize(const char* filename);
 
 
+	string CalculateCheckSumMD5(const char* filename);
+
+	void Test();
+	
 };
-
-
-
-

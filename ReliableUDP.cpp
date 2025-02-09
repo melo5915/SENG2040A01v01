@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 /*
 	Reliability and Flow Control Example
 	From "Networking for Game Programmers" - http://www.gaffer.org/networking-for-game-programmers
@@ -28,13 +29,8 @@ const float DeltaTime = 1.0f / 30.0f;
 const float SendRate = 1.0f / 30.0f;
 const float TimeOut = 10.0f;
 const int PacketSize = 256;
-const int maxBytes = 1400;
-struct FilePacket
-{
-	uint32_t seqNum;
-	uint16_t dataSize;
-	char data[maxBytes];
-};
+const int maxBytess= 1400;
+
 
 
 class FlowControl
@@ -273,7 +269,6 @@ int main(int argc, char* argv[])
 			// parse the packet header to extract metadata like the sequence number and checksum.
 			size_t max_bytes = 16 ;
 			int* ptr;
-			memset(ptr,-6,max_bytes);
 			unsigned char packet[PacketSize];
 			memset(packet, 0, sizeof(packet));
 			snprintf((char*)packet, max_len, "Hello world <<%d>>", i++);
