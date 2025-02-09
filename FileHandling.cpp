@@ -20,7 +20,9 @@ and speed calculations
 #include <windows.h>
 #include <wincrypt.h>
 #include <cryptuiapi.h>
-
+#include <openssl/md5.h>
+#include <iomanip>
+#include <sstream>
 
 using namespace std;
 using namespace net;
