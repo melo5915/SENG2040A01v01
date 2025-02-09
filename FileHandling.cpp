@@ -32,6 +32,13 @@ struct fileData
 	char checkSum[100];
 	vector<char> contentsOfFile;
 };
+const int maxBytes = 1400;
+struct FilePacket
+{
+	uint32_t seqNum;
+	uint16_t dataSize;
+	char data[maxBytes];
+};
 
 class Files
 {
@@ -49,24 +56,26 @@ public:
 	//parameters: 
 	//return: 
 
-	Files(ReliableConnection& connection, const std::string& filename)
+	Files(ReliableConnection& connection, const std::string& filename) : currentConnection(connection)
 	{
-		if (filename != "")
+		
+		if (!filename.empty())
 		{
 			
 			this->filename = filename;
 		}
-		if (connection)
-		{
-
-		}
+		
 		currentConnection = connection;
 		
 	}
+	//name: ~Files
+	//functionality: will be the destructor
+	//parameters: 
+	//return: 
 
 	~Files()
 	{
-
+		
 	}
 
 
@@ -156,28 +165,49 @@ public:
 			return;
 		}
 
-		// throwing file content into a string
-		string fileContent((istreambuf_iterator<char>(fileStream)), istreambuf_iterator<char>());
+		FILE* fp = fopen(filename.c_str(), "rb");
+		if(!fp)
+		{
+			printf("Error file could not be opened");
+			return;
+		}
+
+
+		FilePacket packet;
+		int seqNum = 0;
+
+		fileData metaData;
+
+		// this code just grabs and sends the file metadata
+		strncpy(metaData.fileName, filename.c_str(), sizeof(metaData.fileName) - 1);
+		metaData.fileSize = GetFileSize(filename.c_str());
+
+		// this bascailly sends it as a packet 
+		currentConnection.SendPacket(reinterpret_cast<unsigned char*>(&metaData), sizeof(metaData));
 
 		// sending the files content
-		   
-		if (!currentConnection.SendPacket(fileContent))
-		{
-			cout << "File sent" << endl;
-		}
-		else
-		{
-			cout << "File not sent" << endl;
-		}
 
-		// more logic might be added here 
+		// loop while the data is greater than 0 aka while there is still data to send
+		while ((packet.dataSize = fread(packet.data, 1, sizeof(packet.data), fp)) > 0)
+		{
+			// increment the sequence number by 1 everytime
+			packet.seqNum = seqNum++;
+			// send the packet
+
+			// check if the current connection is good then send the packet
+			if (currentConnection.SendPacket(reinterpret_cast< unsigned char*>(&packet), sizeof(packet)))
+			{
+				cout << "File sent" << endl;
+			}
+			// if not print a message
+			else
+			{
+				cout << "File not sent" << endl;
+			}
+			
+		}
+		fclose(fp);
 		
-
-		// how to send a file well a file is probably going to be sent using a packet and need to be searlized
-		// important question do we do it? Is it already done 
-		// 
-
-
 	}
 
 
@@ -193,17 +223,17 @@ public:
 		// need the var that is going to give the metdata 
 
 		char filename[100];
-		rf = fopen(filename, "wb");
+		rf = fopen(this->filename.c_str(), "wb");
 		// if file is recived fully send a message with param to say that file worked 
 		// need acks 
-		char receivingBuffer[1400];
+		FilePacket packet;
 		// needs fixing while whatever socket it is 
 
 		// depending on the way everything arrives may need map 
 
-		while ( => 0)
+		while(currentConnection.ReceivePacket(reinterpret_cast<unsigned char*>(&packet), sizeof(packet)) > 0)
 		{
-
+			fwrite(packet.data, 1, packet.dataSize, rf);
 		}
 		
 		// psuedocode 
@@ -214,12 +244,6 @@ public:
 		// call send file or some other function to alert the computer that it was succesful 
 
 		// so when there is an ack then send the file 
-
-		
-
-		SendFile(); // or prehaps send some type of ack 
-
-		// testing gitignore
 	}
 
 
