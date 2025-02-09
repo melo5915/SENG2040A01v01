@@ -10,7 +10,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
-
+#include "FileHandling.h"
 
 #include "Net.h"
 #include <filesystem>
@@ -237,6 +237,8 @@ int main(int argc, char* argv[])
 		char buffer[maxBytes];
 		 FILE* fp = fopen(filename, "rb");
 		 size_t  bytesToBeRead = NULL;
+		 Files* File = new Files(connection,filename);
+		 size_t fileSize = File->GetFileSize(filename);
 		if (!fp)
 		{
 
@@ -266,8 +268,6 @@ int main(int argc, char* argv[])
 			size_t max_bytes = 16 ;
 			int* ptr;
 			memset(ptr,-6,max_bytes);
-		
-
 			unsigned char packet[PacketSize];
 			memset(packet, 0, sizeof(packet));
 			snprintf((char*)packet, max_len, "Hello world <<%d>>", i++);

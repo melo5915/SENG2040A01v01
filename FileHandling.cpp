@@ -46,9 +46,14 @@ public:
 	//functionality: will be the constructor
 	//parameters: 
 	//return: 
-	Files()
+	Files(ReliableConnection& connection, const std::string& filename)
 	{
-		filename = "";
+		filename == "";
+	}
+
+	~Files()
+	{
+
 	}
 
 
@@ -183,7 +188,7 @@ public:
 
 		// depending on the way everything arrives may need map 
 
-		while (packet =  > 0)
+		while ( => 0)
 		{
 
 		}
@@ -228,6 +233,8 @@ public:
 		// first I need to transfer the file
 		// I will call SendFile()
 		SendFile();
+
+		
 
 		// this will get the time in between 
 		auto end = std::chrono::steady_clock::now();

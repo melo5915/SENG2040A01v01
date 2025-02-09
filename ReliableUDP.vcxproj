@@ -135,6 +135,7 @@
     <ClCompile Include="ReliableUDP.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FileHandling.h" />
     <ClInclude Include="Net.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
