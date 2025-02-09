@@ -36,16 +36,19 @@ struct fileData
 class Files
 {
 
-public:
+private:
 
 	// this part handles the variable creation
 	string filename; // var for file name
 	ifstream fileStream; // reading filestream
+	ReliableConnection& currentConnection;
 
+public:
 	//name: Files
 	//functionality: will be the constructor
 	//parameters: 
 	//return: 
+
 	Files(ReliableConnection& connection, const std::string& filename)
 	{
 		if (filename != "")
@@ -53,6 +56,11 @@ public:
 			
 			this->filename = filename;
 		}
+		if (connection)
+		{
+
+		}
+		currentConnection = connection;
 		
 	}
 
@@ -153,7 +161,7 @@ public:
 
 		// sending the files content
 		   
-		if (net::Send(fileContent)    )
+		if (!currentConnection.SendPacket(fileContent))
 		{
 			cout << "File sent" << endl;
 		}

@@ -28,7 +28,13 @@ const float DeltaTime = 1.0f / 30.0f;
 const float SendRate = 1.0f / 30.0f;
 const float TimeOut = 10.0f;
 const int PacketSize = 256;
-
+const int maxBytes = 1400;
+struct FilePacket
+{
+	uint32_t seqNum;
+	uint16_t dataSize;
+	char data[maxBytes];
+};
 
 
 class FlowControl

@@ -38,16 +38,20 @@ struct fileData
 class Files
 {
 
-public:
-
+private:
 	// this part handles the variable creation
 	string filename; // var for file name
 	ifstream fileStream; // reading filestream
+	ReliableConnection& currentConnection;
+
+	
+public:
 
 	//name: Files
 	//functionality: will be the constructor
 	//parameters: 
 	//return: 
+
 	Files(ReliableConnection& connection, const std::string& filename);
 
 	~Files();
